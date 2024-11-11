@@ -11,7 +11,7 @@ import {
   CardFooter,
   Heading,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { User } from '@/types/user';
 import { userService } from '@/services/api';
 
@@ -24,6 +24,13 @@ export default function UserList({ users, onUserDeleted }: UserListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const toast = useToast();
   const usersPerPage = 3;
+
+  useEffect(() => {
+    const totalPages = Math.ceil(users.length / usersPerPage);
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    }
+  }, [users.length, currentPage]);
 
   const handleDelete = async (id: string) => {
     try {
