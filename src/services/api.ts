@@ -4,11 +4,19 @@ import { env } from '@/config/env';
 
 const api: AxiosInstance = axios.create({
   baseURL: env.apiBaseUrl,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
-export const getAuthToken = async (apiKey: string) => {
-  const response = await api.post<{ token: string }>('/auth/token', { apiKey });
-  return response.data.token;
+export const getAuthToken = async () => {
+  try {
+    const response = await axios.post<{ token: string }>('/api/auth');
+    return response.data.token;
+  } catch (error) {
+    console.error('Error getting auth token:', error);
+    throw error;
+  }
 };
 
 export const setAuthToken = (token: string) => {
@@ -17,16 +25,31 @@ export const setAuthToken = (token: string) => {
 
 export const userService = {
   getUsers: async (): Promise<User[]> => {
-    const response = await api.get<User[]>('/users');
-    return response.data;
+    try {
+      const response = await api.get<User[]>('/users');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      throw error;
+    }
   },
 
   createUser: async (userData: CreateUserInput): Promise<User> => {
-    const response = await api.post<User>('/users', userData);
-    return response.data;
+    try {
+      const response = await api.post<User>('/users', userData);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating user:', error);
+      throw error;
+    }
   },
 
   deleteUser: async (id: string): Promise<void> => {
-    await api.delete(`/users/${id}`);
+    try {
+      await api.delete(`/users/${id}`);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      throw error;
+    }
   },
 };

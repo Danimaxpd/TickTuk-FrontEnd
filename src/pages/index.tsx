@@ -11,7 +11,6 @@ import CreateUserDialog from '@/components/CreateUserDialog';
 import UserList from '@/components/UserList';
 import { User } from '@/types/user';
 import { userService, getAuthToken, setAuthToken } from '@/services/api';
-import { env } from '@/config/env';
 
 export default function Home() {
   const [users, setUsers] = useState<User[]>([]);
@@ -33,14 +32,16 @@ export default function Home() {
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        const token = await getAuthToken(env.apiKey);
+        const token = await getAuthToken();
         setAuthToken(token);
         await fetchUsers();
       } catch (error) {
+        console.error('Initialization error:', error);
         toast({
           title: 'Error initializing app',
           status: 'error',
           description: 'Please check your API configuration',
+          isClosable: true,
         });
       }
     };
