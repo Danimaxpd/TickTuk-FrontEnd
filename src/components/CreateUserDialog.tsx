@@ -17,6 +17,7 @@ import {
 import { useState, ChangeEvent } from 'react';
 import { CreateUserInput } from '@/types/user';
 import { userService } from '@/services/api';
+import { AxiosError } from 'axios';
 
 interface CreateUserDialogProps {
   isOpen: boolean;
@@ -30,14 +31,21 @@ export default function CreateUserDialog({
   onUserCreated,
 }: CreateUserDialogProps) {
   const toast = useToast();
-  const [formData, setFormData] = useState<CreateUserInput>({
+
+  const initialFormData: CreateUserInput = {
     firstName: '',
     lastName: '',
     email: '',
     gender: 'other',
     password: '',
     description: '',
-  });
+  };
+
+  const [formData, setFormData] = useState<CreateUserInput>(initialFormData);
+
+  const resetForm = () => {
+    setFormData(initialFormData);
+  };
 
   const handleSubmit = async () => {
     try {
@@ -46,22 +54,29 @@ export default function CreateUserDialog({
         title: 'User created successfully',
         status: 'success',
       });
+      resetForm();
       onUserCreated();
       onClose();
     } catch (error) {
+      console.error('Error creating user:', error);
       toast({
-        title: 'Error creating user',
+        title: `Error creating user: ${error instanceof AxiosError ? error.response?.data?.message : error instanceof Error ? error.message : 'Unknown error'}`,
         status: 'error',
       });
     }
   };
 
+  const handleClose = () => {
+    resetForm();
+    onClose();
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={handleClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Create New User</ModalHeader>
-        <ModalCloseButton />
+        <ModalCloseButton onClick={handleClose} />
         <ModalBody>
           <FormControl mb={4}>
             <FormLabel>First Name</FormLabel>
@@ -129,7 +144,7 @@ export default function CreateUserDialog({
           </FormControl>
         </ModalBody>
         <ModalFooter>
-          <Button variant="ghost" mr={3} onClick={onClose}>
+          <Button variant="ghost" mr={3} onClick={handleClose}>
             Cancel
           </Button>
           <Button onClick={handleSubmit}>Create User</Button>
