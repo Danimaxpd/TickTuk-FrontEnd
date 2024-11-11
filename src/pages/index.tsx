@@ -32,7 +32,6 @@ export default function Home() {
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        // In a real app, you would store this securely
         const token = await getAuthToken('your-api-key');
         setAuthToken(token);
         await fetchUsers();
@@ -63,4 +62,4 @@ export default function Home() {
       />
     </Layout>
   );
-} 
+}

@@ -8,9 +8,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <Box minH="100vh" py={8}>
-      <Container maxW="container.xl">
-        {children}
-      </Container>
+      <Container maxW="container.xl">{children}</Container>
     </Box>
   );
-} 
+}

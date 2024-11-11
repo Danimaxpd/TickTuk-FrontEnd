@@ -30,4 +30,4 @@ export const userService = {
   deleteUser: async (id: string): Promise<void> => {
     await api.delete(`/users/${id}`);
   },
-}; 
+};

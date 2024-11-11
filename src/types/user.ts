@@ -15,4 +15,4 @@ export interface CreateUserInput {
   gender: 'male' | 'female' | 'other';
   description?: string;
   password: string;
-} 
+}

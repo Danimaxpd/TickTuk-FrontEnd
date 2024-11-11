@@ -101,4 +101,4 @@ export default function UserList({ users, onUserDeleted }: UserListProps) {
       )}
     </Box>
   );
-} 
+}
