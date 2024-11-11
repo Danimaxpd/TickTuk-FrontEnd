@@ -32,7 +32,7 @@ A modern Single Page Application for user management built with Next.js and Chak
 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/user-management-spa.git
+git clone https://github.com/Danimaxpd/TickTuk-FrontEnd.git
 ```
 
 2. Install dependencies
@@ -66,10 +66,30 @@ user-management-spa/
 ## API Integration
 
 The application integrates with a RESTful API that provides:
-
-- User Authentication
-- User Management Operations
+- User Authentication (JWT-based)
+- User Management Operations (CRUD)
 - Secure Token Management
+
+API Features:
+- Automatic token refresh
+- Error handling with toast notifications
+- Secure password handling
+- Request/Response interceptors
+
+## Theme Customization
+
+The application includes a custom Chakra UI theme with:
+- Light/Dark mode support
+- Custom button variants
+- Responsive card layouts
+- Custom color schemes
+
+## Development Requirements
+
+- Node.js 20.0.0 or later (updated from 18.17)
+- TypeScript 5.3.3 or later
+- Modern browser with ES6 support
+- Git for version control
 
 ## Contributing
 
