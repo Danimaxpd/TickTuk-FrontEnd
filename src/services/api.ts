@@ -1,14 +1,13 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { CreateUserInput, User } from '@/types/user';
+import { env } from '@/config/env';
 
-const API_BASE_URL = 'http://localhost';
-
-const api = axios.create({
-  baseURL: API_BASE_URL,
+const api: AxiosInstance = axios.create({
+  baseURL: env.apiBaseUrl,
 });
 
 export const getAuthToken = async (apiKey: string) => {
-  const response = await api.post('/auth/token', { apiKey });
+  const response = await api.post<{ token: string }>('/auth/token', { apiKey });
   return response.data.token;
 };
 
@@ -18,12 +17,12 @@ export const setAuthToken = (token: string) => {
 
 export const userService = {
   getUsers: async (): Promise<User[]> => {
-    const response = await api.get('/users');
+    const response = await api.get<User[]>('/users');
     return response.data;
   },
 
   createUser: async (userData: CreateUserInput): Promise<User> => {
-    const response = await api.post('/users', userData);
+    const response = await api.post<User>('/users', userData);
     return response.data;
   },
 
